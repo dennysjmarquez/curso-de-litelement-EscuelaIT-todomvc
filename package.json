@@ -1,0 +1,15 @@
+{
+  "name": "todoapp",
+  "version": "1.0.0",
+  "description": "Esta es una app para una práctica del curso de LitElement, y es una aplicación que lleva el control de una lista de tareas el famoso todo list",
+  "main": "index.js",
+  "scripts": {
+    "serve": "polymer serve"
+  },
+  "author": "Dennys J Marquez",
+  "license": "MIT",
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.2.10",
+    "lit-element": "^2.1.0"
+  }
+}
