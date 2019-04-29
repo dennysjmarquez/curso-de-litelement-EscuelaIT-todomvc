@@ -157,7 +157,6 @@ class DjmTodoApp extends LitElement {
 
     setTimeout(()=>this.packtodos = this.newTodo, 1);
 
-
   }
 
   addNewTodo(e){
