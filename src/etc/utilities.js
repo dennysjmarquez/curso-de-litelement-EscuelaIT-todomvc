@@ -4,11 +4,12 @@ class DjmUtilitesClass {
 
   originalTarget(ev) {
 
-    if ('composedPath' in ev) return ev.composedPath()[0];
-    else if ('path' in ev) return ev.path[0];
-    else if ('originalTarget' in ev) return ev.originalTarget;
-    else if ('srcElement' in ev) return ev.srcElement;
-    else return ev.target;
+    return ('composedPath' in ev)
+      ? ev.composedPath()[0] : ('path' in ev)
+        ? ev.path[0] : ('originalTarget' in ev)
+          ? ev.originalTarget : ('srcElement' in ev)
+            ? ev.srcElement : ev.target;
+
   }
 
   typeOf(val){
@@ -25,10 +26,8 @@ class DjmUtilitesClass {
     }
 
     return val == null
-      ? String(val)
-      : typeof val === 'object' || typeof val === 'function'
-        ? this.typeOf.classTypePairs[toString.call(val)] || 'object'
-        : typeof val;
+      ? String(val) : typeof val === 'object' || typeof val === 'function'
+        ? this.typeOf.classTypePairs[toString.call(val)] || 'object' : typeof val;
 
   }
 

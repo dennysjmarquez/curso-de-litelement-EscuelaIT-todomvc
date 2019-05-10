@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { DjmUtilites } from "./utilities";
+import { DjmUtilites } from "./etc/utilities";
 
 class EitInput extends LitElement {
   static get properties() {
