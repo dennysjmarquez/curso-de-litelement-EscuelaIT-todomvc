@@ -98,11 +98,12 @@ class DjmTodoApp extends LitElement {
   static get properties() {
     return {
       todos: { type: Object },
-      packtodos: { type: Array },
+      packtodos: { type: Array  },
       todoId: { type: String },
-      titletodo: { type: String }
-    };
-  }
+      titletodo: { type: String },
+      checkedAll: { type: String }
+    }
+  };
 
   constructor(){
     super();
@@ -111,14 +112,12 @@ class DjmTodoApp extends LitElement {
       this.packtodos = [];
       this.todoId = 'djmtodolist';
       this.titletodo = 'Todos';
-      this.completados = 0;
-      this.checkedAll = null;
+      this.checkedAll = '';
 
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.ini = true;
 
     let storeTodo = localStorage.getItem(this.todoId);
     storeTodo && (this.todos = JSON.parse(storeTodo));
@@ -126,36 +125,34 @@ class DjmTodoApp extends LitElement {
 
   }
 
-  todoChecked(index, e){
+  todoChecked(e, index){
 
     e.detail
-      ? (this.completados = this.completados + 1)
-      : (this.completados = this.completados - 1);
+      ? (this.todos.completados = this.todos.completados + 1)
+      : (this.todos.completados = this.todos.completados - 1);
 
+    this.packtodos[index].completed = e.detail;
+    this.packtodos[index].todoChecked = e.detail;
 
-    this.packtodos[index].completados = e.detail;
-    this.todos.checkedstate = !!this.completados;
+    this.todos.checkedstate = !!this.todos.completados;
 
+    this.requestUpdate('packtodos');
     this.resfrestStorage();
-    this.requestUpdate();
 
   }
 
   todoCheckedAll(e){
 
-    this.checkedAll = e.detail;
+    let oldcheckedAll = this.checkedAll.toString(), newValue = e.detail.toString();
 
     e.detail
-      ? (this.completados = this.packtodos.length )
-      : (this.completados = 0);
+      ? (this.todos.completados = this.packtodos.length)
+      : (this.todos.completados = 0);
 
-    this.todos.checkedstate = !!this.completados;
-
-    this.newTodo = this.packtodos;
-
-    this.packtodos = [];
-
-    setTimeout(()=>this.packtodos = this.newTodo, 1);
+    this.todos.checkedstate = !!this.todos.completados;
+    this.checkedAll = oldcheckedAll === newValue ? 'some_' + newValue : newValue;
+    this.requestUpdate('checkedall', oldcheckedAll);
+    this.resfrestStorage();
 
   }
 
@@ -163,47 +160,34 @@ class DjmTodoApp extends LitElement {
 
     let value = e.detail.target.value, newItem = {"name": value,"completed": false};
     e.detail.target.value = '';
-
-    value.length && (this.packtodos.unshift(newItem), this.resfrestStorage(), this.requestUpdate())
+    value.length && (this.packtodos.unshift(newItem), this.resfrestStorage(), this.requestUpdate());
 
   }
 
-  removeTodo(index, e){
+  removeTodo(e, index){
 
     let todoItem = e.target.parentElement.querySelector('todo-item');
 
-    if(confirm(`Estas seguro que quieres eliminar la tarea: ${''}`)){
+    if(confirm(`Estas seguro que quieres eliminar la tarea: ${todoItem.task.name}`)){
 
+      todoItem.task.completed && (this.todos.completados = this.todos.completados - 1);
       this.packtodos.splice(index, 1);
-
-      todoItem.task.completed && (this.completados = this.completados - 1);
-      this.todos.checkedstate = !!this.completados;
-
-      this.packtodos.length === 0 && (this.completados = 0);
-
-      this.resfrestStorage();
+      this.todos.checkedstate = !!this.todos.completados;
+      this.packtodos.length === 0 && (this.todos.completados = 0);
       this.requestUpdate();
+      this.resfrestStorage();
 
     }
 
   }
 
-  iniCall(){
-
-    this.ini = false;
-
-  }
-
   resfrestStorage(){
 
-    this.todos.packtodos = this.packtodos;
-    localStorage.setItem(this.todoId, JSON.stringify(this.todos));
+    this.updateComplete.then(()=>(this.todos.packtodos = this.packtodos, localStorage.setItem(this.todoId, JSON.stringify(this.todos))));
 
   }
 
   render() {
-
-    var checkeState = null, checked = false, ini = null;
 
     return html `
 
@@ -217,20 +201,15 @@ class DjmTodoApp extends LitElement {
         <div class="todoapp">
 
             <ul class="todo-list">
-
+                
                 ${this.packtodos.map((item, index) => {
-                  
-                    this.checkedAll !== null && !checked && (checkeState = this.checkedAll, checked = true, this.checkedAll = null);
-                    checkeState !== null && (item.completed = checkeState);
-                    
-                    this.ini && (item.completed && this.completados++);
-
-                    return html`<li><todo-item @eit-switch-checked="${this.todoChecked.bind(this, index)}" .task=${item}></todo-item><button class="remove" @click="${this.removeTodo.bind(this, index)}" title="borrar este Todo">×</button></li>`
-
+                   
+                    return html`<li><todo-item @eit-switch-checked="${(event)=>this.todoChecked(event, index)}" .checkedAll="${this.checkedAll}" .task=${item}></todo-item>    
+                                 <button class="remove" @click="${(event)=>this.removeTodo(event, index)}" title="borrar este Todo">×</button>
+                                </li>`
+      
                 })}
-                ${ checked ? this.resfrestStorage() : '' }
-                ${ true ? this.iniCall() : '' }
-
+                
             </ul>
 
           </div>`;
