@@ -80,7 +80,7 @@ class EitInput extends LitElement {
 
 
   lookForEnter(e) {
-
+    
     let keycode = (e.keyCode ? e.keyCode : e.which), target = DjmUtilites.originalTarget(e);
 
     if (keycode == '13') {

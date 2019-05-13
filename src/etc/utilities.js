@@ -1,7 +1,5 @@
 class DjmUtilitesClass {
 
-  constructor(){}
-
   originalTarget(ev) {
 
     return ('composedPath' in ev)
@@ -32,19 +30,19 @@ class DjmUtilitesClass {
   }
 
   randomId(length){
+    
+	let result = '', chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     'number' !== this.typeOf(length) && (length = 32);
 
-    var result = '', chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
     for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-    return result;
+    
+	return result;
 
   }
 
 
 }
 
-const DjmUtilites = new DjmUtilitesClass();
+export const DjmUtilites = new DjmUtilitesClass();
 
-export { DjmUtilites };

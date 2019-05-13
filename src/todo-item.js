@@ -46,10 +46,13 @@ class TodoItem extends LitElement {
     `;
   }
 
+
+
   constructor(){
     super();
 
     this.task = '';
+
 
   }
 
