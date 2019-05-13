@@ -21,15 +21,13 @@ class TodoItem extends LitElement {
 
   }
 
-  get checkedAll(){
-
-    return this._checkedAll;
-
-  }
-
+  get checkedAll(){ return this._checkedAll }
 
   static get styles() {
     return css`
+    
+    <style>.{}
+    
     span {
       cursor: pointer;
       display: var(--todo-item-display, flex);
@@ -46,13 +44,10 @@ class TodoItem extends LitElement {
     `;
   }
 
-
-
   constructor(){
     super();
 
     this.task = '';
-
 
   }
 
@@ -66,19 +61,10 @@ class TodoItem extends LitElement {
   }
 
   checkedChanged(e) {
-    // console.log('checkedChanged', e)
-    // this.task = {
-    //   ...this.task,
-    //   completed: e.detail
-    // };
 
     this.task.completed = e.detail;
+    this.requestUpdate('task');
 
-    this.requestUpdate();
-
-    // let x = [1,3,6];
-    // x = [...x, 67];
-    // console.log(x);
   }
 }
 customElements.define('todo-item', TodoItem);
