@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Practica de la Clase 4 - Todo list App</title>
+</head>
+
+<style>
+
+  body, html { height: 100%; }
+
+  body {
+
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.4em;
+    background: #f5f5f5;
+    color: #4d4d4d;
+    min-width: 230px;
+    max-width: 550px;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 300;
+  }
+
+  djm-todo-app {
+    display: block;;
+  }
+
+</style>
+<body>
+
+  <djm-todo-app titletodo="Todos 1" todoId="todo1" todos='{"checkedstate":true,"completados":3,"packtodos":[{"name":"Task 1","completed":false},{"name":"Task 2","completed":true},{"name":"Task 3","completed":true},{"name":"Task 4","completed":true}]}'>Loading...</djm-todo-app>
+  <djm-todo-app titletodo="Todos 2" todoId="todo2" todos='{"checkedstate":false,"completados":0,"packtodos":[{"name":"Task 1","completed":false},{"name":"Task 2","completed":false},{"name":"Task 3","completed":false}]}'>Loading...</djm-todo-app>
+
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="./main.js"></script>
+  
+</body>
+</html>
