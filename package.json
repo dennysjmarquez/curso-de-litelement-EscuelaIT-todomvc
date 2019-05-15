@@ -1,6 +1,6 @@
 {
   "name": "todoapp",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Esta es una app para una práctica del curso de LitElement, y es una aplicación que lleva el control de una lista de tareas el famoso todo list",
   "main": "index.js",
   "scripts": {

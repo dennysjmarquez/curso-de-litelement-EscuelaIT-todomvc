@@ -133,9 +133,7 @@ class DjmTodoApp extends LitElement {
 
     this.packtodos[index].completed = e.detail;
     this.packtodos[index].todoChecked = e.detail;
-
     this.todos.checkedstate = !!this.todos.completados;
-
     this.packtodos = [...this.packtodos];
     this.resfrestStorage();
 
@@ -183,9 +181,7 @@ class DjmTodoApp extends LitElement {
       this.packtodos.splice(index, 1);
       this.todos.checkedstate = !!this.todos.completados;
       this.packtodos.length === 0 && (this.todos.completados = 0);
-
       this.packtodos = [...this.packtodos];
-
       this.resfrestStorage();
 
     }
