@@ -136,7 +136,7 @@ class DjmTodoApp extends LitElement {
 
     this.todos.checkedstate = !!this.todos.completados;
 
-    this.requestUpdate('packtodos');
+    this.packtodos = [...this.packtodos];
     this.resfrestStorage();
 
   }
@@ -151,7 +151,6 @@ class DjmTodoApp extends LitElement {
 
     this.todos.checkedstate = !!this.todos.completados;
     this.checkedAll = oldcheckedAll === newValue ? 'some_' + newValue : newValue;
-    this.requestUpdate('checkedall', oldcheckedAll);
     this.resfrestStorage();
 
   }
@@ -160,7 +159,17 @@ class DjmTodoApp extends LitElement {
 
     let value = e.detail.target.value, newItem = {"name": value,"completed": false};
     e.detail.target.value = '';
-    value.length && (this.packtodos.unshift(newItem), this.resfrestStorage(), this.requestUpdate());
+
+    if( value.length ){
+
+      this.packtodos = [
+        newItem,
+        ...this.packtodos
+      ];
+
+      this.resfrestStorage()
+
+    }
 
   }
 
@@ -174,7 +183,9 @@ class DjmTodoApp extends LitElement {
       this.packtodos.splice(index, 1);
       this.todos.checkedstate = !!this.todos.completados;
       this.packtodos.length === 0 && (this.todos.completados = 0);
-      this.requestUpdate();
+
+      this.packtodos = [...this.packtodos];
+
       this.resfrestStorage();
 
     }
